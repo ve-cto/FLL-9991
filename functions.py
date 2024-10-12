@@ -1,5 +1,17 @@
 from setup import *
+import math
 
+def RIGHT_ATTACHMENT(speed, angle):
+    desired_angle = (angle * 0.833) * 2
+    right_attachment.run_target(speed, desired_angle)
+
+# -----------------------------------------------------------------------------------
+
+def LEFT_ATTACHMENT(speed, angle):
+    desired_angle = (angle * 0.833) * 2
+    left_attachment.run_target(speed, desired_angle)
+
+# -----------------------------------------------------------------------------------
 
 def GYRO_HOLD(time):
     # get starting angle and starting time (milis)
@@ -11,40 +23,52 @@ def GYRO_HOLD(time):
     # loop until ending time is reached
     while stopwatch.time() <= ending_time:
         # drive forward, correcting angle.   multiply gyro_sensor.angle for sensitivity
-        robot.drive(0, -straight_angle + (gyro_sensor.angle() * 4))
+        robot.drive(0, -straight_angle + (gyro_sensor.angle() * 8))
     robot.stop()
 
 # -----------------------------------------------------------------------------------
 
 # time is in miliseconds
 def GYRO_STRAIGHT(speed, time):
-    # get starting angle and starting time (milis)
-    straight_angle = gyro_sensor.angle()
     starting_time = stopwatch.time()
-    # get ending time
+    robot.reset()
+    print("straight")
+    # get starting angle
+    straight_angle = gyro_sensor.angle()
+    print(straight_angle)
+    
     ending_time = starting_time + time
     
-    # loop until ending time is reached
-    while stopwatch.time() <= ending_time:
-        # drive forward, correcting angle.   multiply gyro_sensor.angle for sensitivity
-        robot.drive(-speed, -straight_angle + (gyro_sensor.angle() * 4))
-    robot.stop()
+    sensitivity = 5  # adjust this value to change the sensitivity
+    # loop until distance is achieved
+    while -robot.distance() <= ending_time:
+        # drive forward, correcting angle
+        current_angle = gyro_sensor.angle()
+        error = current_angle - straight_angle
+        drive_angle = -error * sensitivity  # multiply error by sensitivity
+        robot.drive(-speed, -drive_angle)
+        print(drive_angle)
 # -----------------------------------------------------------------------------------
 
 # time is in miliseconds
 def GYRO_STRAIGHT_DISTANCE(speed, distance):
+    robot.reset()
+    print("straight")
     # get starting angle
     straight_angle = gyro_sensor.angle()
+    print(straight_angle)
+    
     starting_distance = robot.distance()
     desired_distance = starting_distance + distance
-    print(starting_distance)
-    print(desired_distance)
+    sensitivity = 5  # adjust this value to change the sensitivity
     # loop until distance is achieved
     while -robot.distance() <= desired_distance:
-        # drive forward, correcting angle.   multiply gyro_sensor.angle for sensitivity
-        robot.drive(-speed, -straight_angle + (gyro_sensor.angle() * 4))
-        print(-robot.distance())
-    robot.stop()
+        # drive forward, correcting angle
+        current_angle = gyro_sensor.angle()
+        error = current_angle - straight_angle
+        drive_angle = -error * sensitivity  # multiply error by sensitivity
+        robot.drive(-speed, -drive_angle)
+        print(drive_angle)
 # -----------------------------------------------------------------------------------
 
 
@@ -61,8 +85,6 @@ def GYRO_LEFT(angle):
     while gyro_sensor.angle() >= desired_angle: 
         robot.drive(0, 20)
 
-    # stop
-    robot.stop()
 
 
 # -----------------------------------------------------------------------------------

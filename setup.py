@@ -17,10 +17,10 @@ ev3 = EV3Brick()
 stopwatch = StopWatch()
 
 # define the attachment motors
-motor_a = Motor(Port.A)
-motor_d = Motor(Port.D)
+left_attachment = Motor(Port.A)
+right_attachment = Motor(Port.D)
 # put the two attachment motors in an array for easier control
-attachment_motors = [motor_a, motor_d]
+attachment_motors = [left_attachment, right_attachment]
 
 # define the drive motors
 left_motor = Motor(Port.B)

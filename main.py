@@ -2,18 +2,22 @@
 from setup import *
 from functions import *
 
+
+# GYRO_LEFT(angle)
+# GYRO_RIGHT(angle)
+# GYRO_STRAIGHT(time, speed)
+# GYRO_STRAIGHT_DISTANCE(time, distance)
+# GYRO_HOLD(time)
+
+
 ev3.speaker.beep()
 wait(20)
 
-GYRO_LEFT(90)
-wait(500)
-GYRO_RIGHT(90)
-# GYRO_RIGHT(180)
-# print(gyro_sensor.angle())
-# wait(500)
-# GYRO_LEFT(180)
-# print(gyro_sensor.angle())
-
+# -----------------------------------------------------------------------------------------------------------------------------------------------------------
+GYRO_LEFT(180)
+wait(20)
+GYRO_STRAIGHT_DISTANCE(300, 2000)
+# -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ev3.speaker.beep()
 wait(20)
