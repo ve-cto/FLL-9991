@@ -7,8 +7,6 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-# SKIBIDI
-
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -16,6 +14,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 # define the EV3 as ev3 (duh).
 ev3 = EV3Brick()
 
+stopwatch = StopWatch()
 
 # define the attachment motors
 motor_a = Motor(Port.A)
@@ -35,7 +34,7 @@ robot.settings(500, 200, 90, 200)
 
 
 # identify the gyro sensor on port 1
-gyro_sensor = GyroSensor(Port.S1)
+gyro_sensor = GyroSensor(Port.S3)
 gyro_sensor.reset_angle(0)
 
 
@@ -49,12 +48,18 @@ gyro_sensor.reset_angle(0)
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-def GYRO_STRAIGHT(speed):
+def GYRO_STRAIGHT(time, speed):
+    # get starting angle and starting time
     straight_angle = gyro_sensor.angle()
-    print(straight_angle)
-    while True:
-        robot.drive(speed, straight_angle - gyro_sensor.angle())
-
+    starting_time = stopwatch.time()
+    # get ending time
+    ending_time = starting_time + time
+    
+    # loop until ending time is reached
+    while stopwatch.time() <= ending_time:
+        # drive forward, correcting angle.   multiply gyro_sensor.angle for sensitivity
+        robot.drive(-speed, -straight_angle + (gyro_sensor.angle() * 4))
+    robot.stop()
 # -----------------------------------------------------------------------------------
 
 def GYRO_LEFT(angle):
@@ -102,11 +107,14 @@ def GYRO_RIGHT(angle):
 
 ev3.speaker.beep()
 
-GYRO_RIGHT(180)
-print(gyro_sensor.angle())
-wait(500)
-GYRO_LEFT(180)
-print(gyro_sensor.angle())
+# GYRO_RIGHT(180)
+# print(gyro_sensor.angle())
+# wait(500)
+# GYRO_LEFT(180)
+# print(gyro_sensor.angle())
+
+wait(1000)
+GYRO_STRAIGHT(1000, 0)
 
 ev3.speaker.beep()
 wait(20)
