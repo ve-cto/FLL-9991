@@ -1,11 +1,23 @@
 from setup import *
 import math
 
-def ATTACHMENT_LEVER(direction):
+def DRIVE_STOP():
+    robot.stop()
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+    wait(100)
+    left_motor.stop()
+    right_motor.stop()
+# -----------------------------------------------------------------------------------
+
+def ATTACHMENT_LEVER1(direction):
     if direction == "up":
         left_attachment.run_until_stalled(300)
     else: 
         left_attachment.run_until_stalled(-300)
+
+# -----------------------------------------------------------------------------------
 
 def ATTACHMENT_SCOOP(direction):
     if direction == "up":
@@ -15,6 +27,7 @@ def ATTACHMENT_SCOOP(direction):
         right_attachment.run_target(500, 0)
         print(right_attachment.angle())
 
+# -----------------------------------------------------------------------------------
 
 def RESET_ATTACHMENT(attachment):
     if attachment == "left":
@@ -26,32 +39,7 @@ def RESET_ATTACHMENT(attachment):
         right_attachment.run_time(200, 400)
         right_attachment.reset_angle(0)
 
-def PLAY_NOTES(event):
-    if event == "confirm":
-        ev3.speaker.beep(frequency=1000, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=800, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=1000, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=1200, duration=50)
-    elif event == "cancel":
-        ev3.speaker.beep(frequency=400, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=600, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=400, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=200, duration=50)
-    elif event == "warning":
-        ev3.speaker.beep(frequency=400, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=400, duration=50)
-        wait(20)
-        ev3.speaker.beep(frequency=400, duration=50)
-        wait(20)
-    else:
-        wait(20)
+# -----------------------------------------------------------------------------------
 
 def RIGHT_ATTACHMENT(speed, angle):
     desired_angle = (angle * 0.833) * 2
@@ -100,6 +88,12 @@ def GYRO_STRAIGHT(speed, time):
         drive_angle = -error * sensitivity  # multiply error by sensitivity
         robot.drive(-speed, -drive_angle)
         print(drive_angle)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+    wait(100)
+    left_motor.stop()
+    right_motor.stop()
 # -----------------------------------------------------------------------------------
 
 # time is in miliseconds
@@ -161,3 +155,30 @@ def GYRO_RIGHT(angle):
 
 
 # -----------------------------------------------------------------------------------
+
+def PLAY_NOTES(event):
+    if event == "confirm":
+        ev3.speaker.beep(frequency=1000, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=800, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=1000, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=1200, duration=50)
+    elif event == "cancel":
+        ev3.speaker.beep(frequency=400, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=600, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=400, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=200, duration=50)
+    elif event == "warning":
+        ev3.speaker.beep(frequency=400, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=400, duration=50)
+        wait(20)
+        ev3.speaker.beep(frequency=400, duration=50)
+        wait(20)
+    else:
+        wait(20)

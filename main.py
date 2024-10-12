@@ -62,7 +62,7 @@ while True:
             exec(file.read())
 
     # Run run3.py on Center Button
-    elif Button.CENTER in ev3Buttons.Pressed:
+    elif Button.CENTER in ev3ButtonsPressed:
         with open("run3.py") as file:
             exec(file.read())
 
