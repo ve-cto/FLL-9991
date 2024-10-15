@@ -4,52 +4,52 @@ import math
 def DRIVE_STOP():
     robot.stop()
     robot.stop()
-    left_motor.brake()
-    right_motor.brake()
+    left_drive_motor.brake()
+    right_drive_motor.brake()
     wait(100)
-    left_motor.stop()
-    right_motor.stop()
+    left_drive_motor.stop()
+    right_drive_motor.stop()
 # -----------------------------------------------------------------------------------
 
 def ATTACHMENT_LEVER1(direction):
     if direction == "up":
-        left_attachment.run_until_stalled(300)
+        left_attachment_motor.run_until_stalled(300)
     else: 
-        left_attachment.run_until_stalled(-300)
+        left_attachment_motor.run_until_stalled(-300)
 
 # -----------------------------------------------------------------------------------
 
 def ATTACHMENT_SCOOP(direction):
     if direction == "up":
-        right_attachment.run_target(500, 320)
+        right_attachment_motor.run_target(500, 320)
         print(right_attachment.angle())
     else:
-        right_attachment.run_target(500, 0)
+        right_attachment_motor.run_target(500, 0)
         print(right_attachment.angle())
 
 # -----------------------------------------------------------------------------------
 
 def RESET_ATTACHMENT(attachment):
     if attachment == "left":
-        left_attachment.run_until_stalled(-600)
-        right_attachment.reset_angle(0)
+        left_attachment_motor.run_until_stalled(-600)
+        right_attachment_motor.reset_angle(0)
     else: 
-        right_attachment.run_until_stalled(-600)
+        right_attachment_motor.run_until_stalled(-600)
         wait(100)
-        right_attachment.run_time(200, 400)
-        right_attachment.reset_angle(0)
+        right_attachment_motor.run_time(200, 400)
+        right_attachment_motor.reset_angle(0)
 
 # -----------------------------------------------------------------------------------
 
 def RIGHT_ATTACHMENT(speed, angle):
     desired_angle = (angle * 0.833) * 2
-    right_attachment.run_target(speed, desired_angle)
+    right_attachment_motor.run_target(speed, desired_angle)
 
 # -----------------------------------------------------------------------------------
 
 def LEFT_ATTACHMENT(speed, angle):
     desired_angle = (angle * 0.833) * 2
-    left_attachment.run_target(speed, desired_angle)
+    left_attachment_motor.run_target(speed, desired_angle)
 
 # -----------------------------------------------------------------------------------
 
