@@ -33,10 +33,6 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter=60, axle_track=115)
 robot.settings(500, 200, 90, 200)
 
 
-# identify the gyro sensor on port 1
+# identify the gyro sensor on port 3
 gyro_sensor = GyroSensor(Port.S3)
 gyro_sensor.reset_angle(0)
-
-
-# identify the rangefinder on port 2
-# distance_sensor = UltrasonicSensor(Port.S2)
