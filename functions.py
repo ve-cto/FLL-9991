@@ -17,11 +17,14 @@ def GYRO_HOLD(time):
     starting_time = stopwatch.time()
     # get ending time
     ending_time = starting_time + time
-    
+    sensitivity = 4
     # loop until ending time is reached
     while stopwatch.time() <= ending_time:
         # drive forward, correcting angle.   multiply gyro_sensor.angle for sensitivity
-        robot.drive(0, -straight_angle + (gyro_sensor.angle() * 8))
+        current_angle = gyro_sensor.angle()
+        error = current_angle - straight_angle
+        drive_angle = -error * sensitivity  # multiply error by sensitivity
+        robot.drive(0, -drive_angle)
     robot.stop()
 
 # -----------------------------------------------------------------------------------
@@ -47,11 +50,7 @@ def GYRO_STRAIGHT(speed, time):
         robot.drive(-speed, -drive_angle)
         print(drive_angle)
     robot.stop()
-    left_motor.brake()
-    right_motor.brake()
-    wait(100)
-    left_motor.stop()
-    right_motor.stop()
+
 # -----------------------------------------------------------------------------------
 
 # time is in miliseconds
@@ -64,15 +63,17 @@ def GYRO_STRAIGHT_DISTANCE(speed, distance):
     
     starting_distance = robot.distance()
     desired_distance = starting_distance + distance
-    sensitivity = 5  # adjust this value to change the sensitivity
+    sensitivity = 8  # adjust this value to change the sensitivity
     # loop until distance is achieved
-    while -robot.distance() <= desired_distance:
+    while robot.distance() >= -desired_distance:
         # drive forward, correcting angle
         current_angle = gyro_sensor.angle()
         error = current_angle - straight_angle
         drive_angle = -error * sensitivity  # multiply error by sensitivity
         robot.drive(-speed, -drive_angle)
-        print(drive_angle)
+        print(robot.distance())
+    robot.stop()
+
 # -----------------------------------------------------------------------------------
 
 
@@ -113,6 +114,7 @@ def GYRO_RIGHT(angle):
 
 
 # -----------------------------------------------------------------------------------
+
 
 def PLAY_NOTES(event):
     if event == "confirm":
