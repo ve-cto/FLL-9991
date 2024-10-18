@@ -27,55 +27,35 @@ def GYRO_HOLD(time):
         robot.drive(0, -drive_angle)
     robot.stop()
 
-# -----------------------------------------------------------------------------------
-
-# time is in miliseconds
-def GYRO_STRAIGHT(speed, time):
-    starting_time = stopwatch.time()
+def GYRO_STRAIGHT_DISTANCE(distance, speed):
     robot.reset()
-    print("straight")
-    # get starting angle
-    straight_angle = gyro_sensor.angle()
-    print(straight_angle)
+    gyro_sensor.reset_angle(0)
+
+    PROP_GAIN = 2.0
+    # continue on https://fll-pigeons.github.io/gamechangers/micropython.html
     
-    ending_time = starting_time + time
-    
-    sensitivity = 5  # adjust this value to change the sensitivity
-    # loop until distance is achieved
-    while -robot.distance() <= ending_time:
-        # drive forward, correcting angle
-        current_angle = gyro_sensor.angle()
-        error = current_angle - straight_angle
-        drive_angle = -error * sensitivity  # multiply error by sensitivity
-        robot.drive(-speed, -drive_angle)
-        print(drive_angle)
-    robot.stop()
+def GYRO_TURN(angle, speed):
+    gyro_sensor.reset_angle(0)
+    if angle < 0:
+        while gyro_sensor.angle() > angle:
+            robot.drive(0, speed)
+            wait(10)
+            
+        while gyro_sensor.angle() >= desired_angle: 
+            robot.drive(0, -20)
+            wait(10)
+    elif angle > 0:
+        while gyro_sensor.angle() < angle:
+            robot.drive(0, -speed)
+            wait(10)
+            
+        while gyro_sensor.angle() >= desired_angle: 
+            robot.drive(0, 20)
+            wait(10)
+    else:
+        print("Error! you did an oopsie and didn't define a speed")
 
-# -----------------------------------------------------------------------------------
-
-# time is in miliseconds
-def GYRO_STRAIGHT_DISTANCE(speed, distance):
-    robot.reset()
-    print("straight")
-    # get starting angle
-    straight_angle = gyro_sensor.angle()
-    print(straight_angle)
-    
-    starting_distance = robot.distance()
-    desired_distance = starting_distance + distance
-    sensitivity = 8  # adjust this value to change the sensitivity
-    # loop until distance is achieved
-    while robot.distance() >= -desired_distance:
-        # drive forward, correcting angle
-        current_angle = gyro_sensor.angle()
-        error = current_angle - straight_angle
-        drive_angle = -error * sensitivity  # multiply error by sensitivity
-        robot.drive(-speed, -drive_angle)
-        print(robot.distance())
-    robot.stop()
-
-# -----------------------------------------------------------------------------------
-
+    robot.brake()
 
 def GYRO_LEFT(angle):
     # get desired turn angle derived from base gyro angle
