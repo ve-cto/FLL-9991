@@ -3,7 +3,6 @@ import math
 
 def DRIVE_STOP():
     robot.stop()
-    robot.stop()
     left_drive_motor.brake()
     right_drive_motor.brake()
     wait(100)
@@ -25,23 +24,31 @@ def GYRO_HOLD(time):
         error = current_angle - straight_angle
         drive_angle = -error * sensitivity  # multiply error by sensitivity
         robot.drive(0, -drive_angle)
-    robot.stop()
+    DRIVE_STOP()
+
+
 
 def GYRO_STRAIGHT_DISTANCE(distance, speed):
+    # reset robot distancd and gyro
     robot.reset()
     gyro_sensor.reset_angle(0)
 
+    # define gain, increase this value to be more sensitive to interactions
+    # excessively high gain may cause wobbling
     PROP_GAIN = 2.0
-    # continue on https://fll-pigeons.github.io/gamechangers/micropython.html
-    
+    while robot.distance() < distance
+        angle_compensate = -PROP_GAIN * gyro_sensor.angle()
+        robot.drive(speed, angle_compensate)
+    ROBOT_BRAKE()
+        
 def GYRO_TURN(angle, speed):
     gyro_sensor.reset_angle(0)
     if angle < 0:
-        while gyro_sensor.angle() > angle:
+        while gyro_sensor.angle() >= angle:
             robot.drive(0, speed)
             wait(10)
             
-        while gyro_sensor.angle() >= desired_angle: 
+        while gyro_sensor.angle() <= desired_angle: 
             robot.drive(0, -20)
             wait(10)
     elif angle > 0:
@@ -55,47 +62,13 @@ def GYRO_TURN(angle, speed):
     else:
         print("Error! you did an oopsie and didn't define a speed")
 
-    robot.brake()
-
-def GYRO_LEFT(angle):
-    # get desired turn angle derived from base gyro angle
-    starting_angle = gyro_sensor.angle()    
-    desired_angle = starting_angle + angle
-
-    # coarse turn
-    while gyro_sensor.angle() <= desired_angle:
-        robot.drive(0, -120)
-
-    # fine, slower turn for correction
-    while gyro_sensor.angle() >= desired_angle: 
-        robot.drive(0, 20)
-
+    # robot.brake()
+    DRIVE_STOP()
 
 
 # -----------------------------------------------------------------------------------
 
-def GYRO_RIGHT(angle):
-    # get desired turn angle derived from base gyro angle
-    starting_angle = gyro_sensor.angle()    
-    desired_angle = starting_angle - angle
-
-    # coarse turn
-    while gyro_sensor.angle() >= desired_angle:
-        robot.drive(0, 120)
-        print(gyro_sensor.angle())
-
-    # fine, slower turn for correction
-    while gyro_sensor.angle() <= desired_angle: 
-        robot.drive(0, -20)
-        print(gyro_sensor.angle())
-        
-    # stop
-    robot.stop()
-
-
-# -----------------------------------------------------------------------------------
-
-
+# play a sequence of notes as action responses
 def PLAY_NOTES(event):
     if event == "confirm":
         ev3.speaker.beep(frequency=1000, duration=50)
