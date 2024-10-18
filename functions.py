@@ -8,6 +8,7 @@ def DRIVE_STOP():
     wait(100)
     left_drive_motor.stop()
     right_drive_motor.stop()
+    
 # -----------------------------------------------------------------------------------
 
 def GYRO_HOLD(time):
@@ -26,7 +27,23 @@ def GYRO_HOLD(time):
         robot.drive(0, -drive_angle)
     DRIVE_STOP()
 
+# -----------------------------------------------------------------------------------
 
+def GYRO_STRAIGHT(time, speed):
+    # reset robot distancd and gyro
+    robot.reset()
+    gyro_sensor.reset_angle(0)
+    ending_time = time + stopwatch.time()
+
+    # define gain, increase this value to be more sensitive to interactions
+    # excessively high gain may cause wobbling
+    PROP_GAIN = 2.0
+    while stopwatch.time() <= ending_time:
+        angle_compensate = -PROP_GAIN * gyro_sensor.angle()
+        robot.drive(speed, angle_compensate)
+    DRIVE_STOP()
+    
+# -----------------------------------------------------------------------------------
 
 def GYRO_STRAIGHT_DISTANCE(distance, speed):
     # reset robot distancd and gyro
@@ -39,7 +56,9 @@ def GYRO_STRAIGHT_DISTANCE(distance, speed):
     while robot.distance() < distance
         angle_compensate = -PROP_GAIN * gyro_sensor.angle()
         robot.drive(speed, angle_compensate)
-    ROBOT_BRAKE()
+    DRIVE_STOP()
+        
+# -----------------------------------------------------------------------------------
         
 def GYRO_TURN(angle, speed):
     gyro_sensor.reset_angle(0)
@@ -64,7 +83,6 @@ def GYRO_TURN(angle, speed):
 
     # robot.brake()
     DRIVE_STOP()
-
 
 # -----------------------------------------------------------------------------------
 
@@ -95,3 +113,5 @@ def PLAY_NOTES(event):
         wait(20)
     else:
         wait(20)
+        
+# -----------------------------------------------------------------------------------
