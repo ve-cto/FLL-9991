@@ -56,6 +56,8 @@ def GYRO_STRAIGHT(speed, time):
 # time is in miliseconds
 def GYRO_STRAIGHT_DISTANCE(speed, distance):
     robot.reset()
+    wait(50)
+    print(robot.distance())
     print("straight")
     # get starting angle
     straight_angle = gyro_sensor.angle()

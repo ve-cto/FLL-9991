@@ -25,8 +25,8 @@ def ATTACHMENT_SCOOP(direction):
 
 def RESET_ATTACHMENT(attachment):
     if attachment == "left":
-        left_attachment_motor.run_until_stalled(-600)
-        right_attachment_motor.reset_angle(0)
+        left_attachment_motor.run_until_stalled(600)
+        left_attachment_motor.reset_angle(0)
     else: 
         right_attachment_motor.run_until_stalled(-600)
         wait(100)
