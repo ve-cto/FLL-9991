@@ -1,7 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 from setup import *
 from functions import *
-
+from attachmentfunctions import *
 # GYRO_LEFT(angle)
 # GYRO_RIGHT(angle)
 # GYRO_STRAIGHT(speed, time)
@@ -41,3 +41,16 @@ from functions import *
 # RIGHT_ATTACHMENT(speed, angle)
 # LEFT_ATTACHMENT(speed, angle)
 # ---------------------------------------------------------------
+
+GYRO_STRAIGHT_DISTANCE(-230, -500)
+DRIVE_STOP()
+GYRO_TURN(33, 300)
+GYRO_STRAIGHT_DISTANCE(-125, -300)
+DRIVE_STOP()
+wait(100)
+GYRO_STRAIGHT_DISTANCE(125, 150)
+GYRO_TURN(-55, 200)
+GYRO_STRAIGHT_DISTANCE(-300, -600)
+DRIVE_STOP()
+GYRO_STRAIGHT_DISTANCE(700, 400)
+DRIVE_STOP()

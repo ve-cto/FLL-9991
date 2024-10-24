@@ -34,7 +34,7 @@ robot_brake = [left_drive_motor, right_drive_motor]
 
 # initialize default driving settings
 ROBOT_SPEED = 400
-ROBOT_ACCELERATION = 100
+ROBOT_ACCELERATION = 50
 ROBOT_TURN_SPEED = 90
 ROBOT_TURN_ACCELERATION = 80
 robot.settings(ROBOT_SPEED, ROBOT_ACCELERATION, ROBOT_TURN_SPEED, ROBOT_TURN_ACCELERATION)

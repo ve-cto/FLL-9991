@@ -53,15 +53,22 @@ def GYRO_STRAIGHT_DISTANCE(distance, speed):
     # define gain, increase this value to be more sensitive to interactions
     # excessively high gain may cause wobbling
     PROP_GAIN = 2.0
-    while robot.distance() < distance
-        angle_compensate = -PROP_GAIN * gyro_sensor.angle()
-        robot.drive(speed, angle_compensate)
-    DRIVE_STOP()
-        
+    if distance > 0:
+        while robot.distance() < distance:
+            angle_compensate = PROP_GAIN * gyro_sensor.angle()
+            robot.drive(speed, angle_compensate)
+        DRIVE_STOP()
+    elif distance < 0:
+        while robot.distance() > distance:
+            angle_compensate = PROP_GAIN * gyro_sensor.angle()
+            robot.drive(speed, angle_compensate)
+        DRIVE_STOP()
+
 # -----------------------------------------------------------------------------------
         
 def GYRO_TURN(angle, speed):
     gyro_sensor.reset_angle(0)
+    desired_angle = angle + 3
     if angle < 0:
         while gyro_sensor.angle() >= angle:
             robot.drive(0, speed)

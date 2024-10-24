@@ -1,6 +1,7 @@
 #!/usr/bin/env pybricks-micropython
 from setup import *
 from functions import *
+from attachmentfunctions import *
 
 # GYRO_LEFT(angle)
 # GYRO_RIGHT(angle)
@@ -43,5 +44,12 @@ from functions import *
 # ---------------------------------------------------------------
 
 PLAY_NOTES("confirm")
-
-GYRO_STRAIGHT_DISTANCE(150, 100)
+RESET_ATTACHMENT("right")
+right_attachment_motor.run_target(200, -200)
+GYRO_STRAIGHT_DISTANCE(-590, -200)
+right_attachment_motor.run(-150)
+robot.drive(-75,-180)
+wait(4000)
+DRIVE_STOP()
+right_attachment_motor.stop()
+GYRO_STRAIGHT_DISTANCE(-590, -400)
